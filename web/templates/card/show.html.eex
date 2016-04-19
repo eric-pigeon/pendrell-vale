@@ -1,0 +1,10 @@
+<h2>Show card</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @card.name %>
+  </li>
+
+</ul>
