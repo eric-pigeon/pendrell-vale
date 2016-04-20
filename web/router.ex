@@ -16,9 +16,9 @@ defmodule PendrellVale.Router do
   scope "/", PendrellVale do
     pipe_through :browser # Use the default browser stack
 
-
-    resources "/cards", CardController, only: [:show]
     get "/", PageController, :index
+    resources "/sets", SetController, only: [:index]
+    resources "/cards", CardController, only: [:show]
   end
 
   # Other scopes may use custom stacks.

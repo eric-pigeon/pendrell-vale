@@ -3,14 +3,16 @@ defmodule PendrellVale.Repo.Migrations.CreateSet do
 
   def change do
     create table(:sets) do
-      add :name,          :string
-      add :code,          :string
-      add :gatherer_code, :string
+      add :name,          :text, null: false
+      add :code,          :text
+      add :gatherer_code, :text
       add :release_date,  :date
-      add :border,        :string
-      add :type,          :string
-      add :block,         :string
+      add :border,        :text
+      add :type,          :text
+      add :block,         :text
       add :online_only,   :boolean, null: false, default: false
     end
+
+    create unique_index(:sets, [:name])
   end
 end

@@ -9,8 +9,8 @@ defmodule PendrellVale.Card do
     field :names,               {:array, :string}
     field :layout,              :string
     field :mana_cost,           :string
-    field :converted_mana_cost, :integer
-    field :collors,             {:array, :string}
+    field :converted_mana_cost, :integer, default: 0
+    field :colors,              {:array, :string}
     field :type,                :string
     field :types,               {:array, :string}
     field :subtypes,            {:array, :string}
@@ -23,14 +23,16 @@ defmodule PendrellVale.Card do
     field :power,               :integer
     field :toughness,           :integer
     field :variants,            {:array, :integer}
-    field :reserved,            :boolean
-    field :printings, {:array, :string}
+    field :reserved,            :boolean, default: false
+    field :printings,           {:array, :string}
     #field :rulings, :json
+
+    belongs_to :set, PendrellVale.Set
 
     timestamps
   end
 
-  @required_fields ~w(name)
+  @required_fields ~w(name layout colors type types subtypes rarity artist)
   @optional_fields ~w()
 
   @doc """

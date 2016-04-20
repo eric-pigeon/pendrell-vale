@@ -14,6 +14,15 @@ config :pendrell_vale, PendrellVale.Endpoint,
   pubsub: [name: PendrellVale.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :guardian, Guardian,
+  allowed_algos: ["HS512"], # optional
+  verify_module: Guardian.JWT,  # optional
+  issuer: "MyApp",
+  ttl: { 30, :days },
+  verify_issuer: true, # optional
+  secret_key: "SqA7lJ2oUqqQDelWtYGt9ZuOonez7HS5SV3WyPo1waGK3+jeduWDsOaL50mqIb4X",
+  serializer: PendrellVale.GuardianSerializer
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

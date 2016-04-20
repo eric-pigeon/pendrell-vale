@@ -5,15 +5,11 @@ defmodule Mix.Tasks.PendrellVale.ImportCards do
   def run(_args) do
     Mix.Task.run "app.start", []
 
-    {:ok, file} =
-      Path.expand("data/sets.json")
-        |> File.read
+    with {:ok, file} <- Path.expand("data/sets.json") |> File.read,
+         {:ok, sets} <- Poison.Parser.parse(file) do
 
-    {:ok, sets} = Poison.Parser.parse(file)
-    sets
-    #|> Enum.take(2)
-    |> Enum.map(&insert_set/1)
-    #IO.puts (Poison.Parser.parse(file) |> Enum.take(1))
+      sets |> Enum.map(&insert_set/1)
+    end
   end
 
   defp insert_set(json_set) do
@@ -29,9 +25,46 @@ defmodule Mix.Tasks.PendrellVale.ImportCards do
         online_only: json_set["onlineOnly"]
       }
 
-      %PendrellVale.Set{}
-      |> PendrellVale.Set.changeset(changes)
-      |> Repo.insert!
+      set =
+        %PendrellVale.Set{}
+        |> PendrellVale.Set.changeset(changes)
+        |> Repo.insert!
+
+      json_set["cards"] |> Enum.map(&(insert_card(&1, set)))
     end
+  end
+
+  defp insert_card(card, set) do
+    changes = %{
+      name: card["name"],
+      name_translations: %{},
+      multiverse_id: card["multiverseid"],
+      #names,
+      layout: card["layout"],
+      mana_cost: card["manaCost"],
+      converted_mana_cost: card["cmc"],
+      #colors,
+      type: card["type"],
+      #types,
+      #subtypes,
+      rarity: card["rarity"],
+      #text,
+      #original_text,
+      #flavor,
+      artist: card["artist"],
+      #number,
+      #power,
+      #toughness,
+      #variants,
+      reserved: card["reserved"],
+      #printings
+      set_id: set.id
+    }
+
+    IO.inspect changes
+
+    %PendrellVale.Card{}
+    |> PendrellVale.Card.changeset(changes)
+    |> Repo.insert!
   end
 end

@@ -1,0 +1,3 @@
+<%= for set <- @sets do %>
+  <%= set.name %>
+<% end %>
