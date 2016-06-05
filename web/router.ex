@@ -19,6 +19,7 @@ defmodule PendrellVale.Router do
     get "/", PageController, :index
     resources "/sets", SetController, only: [:index]
     resources "/cards", CardController, only: [:show]
+    resources "/sign_up", SignupController, only: [:new, :create]
   end
 
   # Other scopes may use custom stacks.

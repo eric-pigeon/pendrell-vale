@@ -43,7 +43,7 @@ defmodule PendrellVale.Mixfile do
       {:gettext, "~> 0.9"},
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 2.4"},
-      {:guardian, "~> 0.10.0"}
+      {:phoenix_haml, "~> 0.2.1"}
     ]
   end
 
